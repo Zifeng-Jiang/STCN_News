@@ -7,7 +7,7 @@ import time
 
 def scrape_content(driver, link):
     driver.get(link)
-    time.sleep(1)  # 等待页面加载
+    time.sleep(3)  # 等待页面加载
     content_source = driver.page_source
     content_tree = html.fromstring(content_source)
 
@@ -48,7 +48,7 @@ def get_dynamic_content(key_word):
     options.add_argument("--remote-debugging-port=9222")
     options.add_argument("--ignore-certificate-errors")  # 禁用 SSL 验证
     options.add_argument("--ignore-ssl-errors")
-    options.add_argument("--window-size=1400,1000")  # 设置窗口大小
+    options.add_argument("--window-size=900,650")  # 设置窗口大小
 
     driver = webdriver.Chrome(service=ChromeService(), options=options)
 
@@ -57,7 +57,7 @@ def get_dynamic_content(key_word):
     driver.get(url)
 
     # 等待页面动态加载内容
-    time.sleep(3)
+    time.sleep(5)
 
     # 获取加载后的页面内容
     page_source = driver.page_source
@@ -84,7 +84,7 @@ def get_dynamic_content(key_word):
 
         # 确保链接是完整的
         if not link.startswith(('http://', 'https://')):
-            link = f"https://stcn.com{link}"  # 构建完整的链接
+            link = f"https://stcn.com{link}"
 
         # 提取摘要
         summary = item.xpath('string(.//div[@class="desc"] | .//div[2])')
@@ -100,7 +100,7 @@ def get_dynamic_content(key_word):
         # 检查新闻日期是否在三天内
         if news_date and news_date < time_threshold:
             print(f"Skipping old news: {news_date}")
-            continue
+            break  # 遇到过期新闻，停止爬取
 
         # 打印提取的内容
         print(f"Keyword: {key_word}")
