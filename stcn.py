@@ -103,6 +103,7 @@ def get_dynamic_content(key_word):
             continue
 
         # 打印提取的内容
+        print(f"Keyword: {key_word}")
         print(f"Title: {title}")
         print(f"Link: {link}")
         print(f"Summary: {summary}")
